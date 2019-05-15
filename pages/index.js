@@ -1,17 +1,17 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { getLocation, handleLocationError } from '../utils'
+import { setCoordinates } from '../store'
 
 class Home extends React.Component {
   state = {
-    latitude: null,
-    longitude: null,
     error: null,
     fetching: true
   }
 
   setCoordinates = ({ coords }) => {
     const { latitude, longitude } = coords
-    return this.setState({ latitude, longitude })
+    this.props.setCoordinates({ latitude, longitude })
   }
 
   componentDidMount () {
@@ -23,7 +23,8 @@ class Home extends React.Component {
       .finally(() => this.setState({ fetching: false }))
   }
   render () {
-    const { latitude, longitude, fetching, error } = this.state
+    const { fetching, error } = this.state
+    const { latitude, longitude } = this.props.coordinates
     if (fetching) {
       return <div>Loading...</div>
     }
@@ -34,4 +35,13 @@ class Home extends React.Component {
   }
 }
 
-export default Home
+const mapDispatchToProps = { setCoordinates }
+
+const mapStateToProps = ({ coordinates }) => ({
+  coordinates
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home)
