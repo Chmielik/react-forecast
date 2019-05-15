@@ -20,5 +20,6 @@
         "react"
     ],
     "rules": {
+        "react/jsx-uses-vars": [2]
     }
 }
