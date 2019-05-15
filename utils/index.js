@@ -1,18 +1,14 @@
 export const getLocation = async () => {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
+      // quick fix if localhost asks too frequently
+      // resolve({ coords: { latitude: 1, longitude: 2 } })
       navigator.geolocation.getCurrentPosition(resolve, reject)
     } else {
       reject(new Error({ code: 'NOT_SUPPORTED' }))
     }
   })
 }
-
-// export const showPosition = (position) => {
-//     return { position}
-//   x.innerHTML = 'Latitude: ' + position.coords.latitude +
-//     '<br>Longitude: ' + position.coords.longitude
-// }
 
 export const handleLocationError = (error) => {
   switch (error.code) {
